@@ -49,6 +49,7 @@ class DetalleCitaFragment : Fragment() {
             binding.cita = citaActual
             mostrarImagenMascota(citaActual?.imagenUrl)
         }
+        binding.fabEditarCita.setOnClickListener { abrirEditarCita(citaId) }
         configurarEliminacion(citaId)
         if (citaViewModel.estadoEliminacion.value == EstadoEliminacion.INICIAL) {
             citaViewModel.cargarCita(citaId)
@@ -60,7 +61,9 @@ class DetalleCitaFragment : Fragment() {
             citaViewModel.eliminarCitaSeleccionada(citaId)
         }
         citaViewModel.estadoEliminacion.observe(viewLifecycleOwner) { estado ->
-            binding.fabEliminarCita.isEnabled = estado == EstadoEliminacion.INICIAL
+            val accionesHabilitadas = estado == EstadoEliminacion.INICIAL
+            binding.fabEliminarCita.isEnabled = accionesHabilitadas
+            binding.fabEditarCita.isEnabled = accionesHabilitadas
             when (estado) {
                 EstadoEliminacion.ELIMINADA -> {
                     citaViewModel.consumirResultadoEliminacion()
@@ -73,6 +76,16 @@ class DetalleCitaFragment : Fragment() {
                 else -> Unit
             }
         }
+    }
+
+    private fun abrirEditarCita(citaId: Int) {
+        if (citaViewModel.estadoEliminacion.value != EstadoEliminacion.INICIAL) return
+        val cita = citaViewModel.citaSeleccionada.value?.takeIf { it.id == citaId } ?: return
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.detalleCitaFragment) return
+
+        val argumentos = Bundle().apply { putInt("citaId", cita.id) }
+        navController.navigate(R.id.action_detalleCitaFragment_to_editarCitaFragment, argumentos)
     }
 
     private fun mostrarErrorEliminacion(mensaje: Int) {

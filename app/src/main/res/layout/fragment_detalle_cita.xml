@@ -189,5 +189,23 @@
             app:tint="@color/blanco"
             tools:visibility="visible" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabEditarCita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/title_editar_cita"
+            android:visibility="@{cita != null ? View.VISIBLE : View.GONE}"
+            app:backgroundTint="@color/gris_oscuro"
+            app:elevation="6dp"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+            app:srcCompat="@drawable/ic_editar_cita_lapiz"
+            app:tint="@color/blanco"
+            tools:visibility="visible" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
