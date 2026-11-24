@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dogapp.R
 import com.example.dogapp.databinding.FragmentHomeBinding
@@ -30,6 +31,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         configurarSalidaAlEscritorio()
         configurarListaCitas()
+        configurarBotonNuevaCita()
+    }
+
+    private fun configurarBotonNuevaCita() {
+        binding.fabNuevaCita.setOnClickListener {
+            val navController = findNavController()
+            if (navController.currentDestination?.id == R.id.homeFragment) {
+                navController.navigate(R.id.action_homeFragment_to_nuevaCitaFragment)
+            }
+        }
     }
 
     private fun configurarListaCitas() {

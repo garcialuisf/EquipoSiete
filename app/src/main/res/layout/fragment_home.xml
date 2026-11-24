@@ -78,12 +78,29 @@
             android:paddingStart="16dp"
             android:paddingTop="20dp"
             android:paddingEnd="16dp"
+            android:paddingBottom="88dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/homeHeader"
             tools:itemCount="3"
             tools:listitem="@layout/item_cita" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabNuevaCita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/title_nueva_cita"
+            app:backgroundTint="@color/rosado"
+            app:elevation="6dp"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+            app:srcCompat="@drawable/ic_nueva_cita"
+            app:tint="@color/blanco" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
