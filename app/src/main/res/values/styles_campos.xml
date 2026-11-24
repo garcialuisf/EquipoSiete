@@ -1,0 +1,11 @@
+<resources>
+    <style name="Widget.DogApp.CampoOutlined" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/editar_cita_gris</item>
+        <item name="hintTextColor">@color/editar_cita_gris</item>
+        <item name="boxStrokeColor">@color/editar_cita_borde</item>
+        <item name="boxCornerRadiusTopStart">2dp</item>
+        <item name="boxCornerRadiusTopEnd">2dp</item>
+        <item name="boxCornerRadiusBottomStart">2dp</item>
+        <item name="boxCornerRadiusBottomEnd">2dp</item>
+    </style>
+</resources>

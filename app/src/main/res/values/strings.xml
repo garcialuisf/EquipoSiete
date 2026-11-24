@@ -6,4 +6,5 @@
     <string name="title_editar_cita">Editar Cita</string>
     <string name="title_detalle_cita">Detalle</string>
     <string name="editar_cita_volver">Volver al detalle de la cita</string>
+    <string name="editar_cita_nombre_mascota">Nombre de la Mascota</string>
 </resources>

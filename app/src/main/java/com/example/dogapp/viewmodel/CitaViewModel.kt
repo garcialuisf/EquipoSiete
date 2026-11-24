@@ -9,11 +9,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.dogapp.data.AppDatabase
 import com.example.dogapp.model.Cita
 import com.example.dogapp.repository.CitaRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 class CitaViewModel(application: Application) : AndroidViewModel(application) {
 
+    enum class EstadoEdicion { INICIAL, CARGANDO, LISTA, NO_DISPONIBLE }
+
     private val repository: CitaRepository
+    private val _estadoEdicion = MutableLiveData(EstadoEdicion.INICIAL)
+    val estadoEdicion: LiveData<EstadoEdicion> get() = _estadoEdicion
+    private var citaIdEdicion: Int? = null
     val listaCitas: LiveData<List<Cita>>
 
     private val _citaSeleccionada = MutableLiveData<Cita?>()
@@ -48,4 +54,22 @@ class CitaViewModel(application: Application) : AndroidViewModel(application) {
             _citaSeleccionada.value = repository.obtenerCitaPorId(id)
         }
     }
+
+    fun cargarCitaParaEditar(id: Int) {
+        if (citaIdEdicion == id) return
+        citaIdEdicion = id
+        _estadoEdicion.value = EstadoEdicion.CARGANDO
+        viewModelScope.launch {
+            try {
+                val cita = repository.obtenerCitaPorId(id)
+                _citaSeleccionada.value = cita
+                _estadoEdicion.value = if (cita == null) EstadoEdicion.NO_DISPONIBLE else EstadoEdicion.LISTA
+            } catch (cancelacion: CancellationException) {
+                throw cancelacion
+            } catch (_: Exception) {
+                _estadoEdicion.value = EstadoEdicion.NO_DISPONIBLE
+            }
+        }
+    }
+
 }
