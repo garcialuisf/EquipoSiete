@@ -5,4 +5,5 @@
     <string name="title_nueva_cita">Nueva Cita</string>
     <string name="title_editar_cita">Editar Cita</string>
     <string name="title_detalle_cita">Detalle</string>
+    <string name="editar_cita_volver">Volver al detalle de la cita</string>
 </resources>
