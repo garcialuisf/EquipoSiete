@@ -133,6 +133,19 @@
                 app:layout_constraintTop_toTopOf="@id/campo_raza"
                 app:layout_constraintBottom_toBottomOf="@id/campo_raza" />
 
+            <TextView
+                android:id="@+id/mensaje"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:accessibilityLiveRegion="polite"
+                android:gravity="center"
+                android:textColor="@color/gris_oscuro"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/campo_telefono"
+                app:layout_constraintEnd_toEndOf="@id/campo_telefono"
+                app:layout_constraintTop_toBottomOf="@id/campo_telefono" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/editar"
                 android:layout_width="wrap_content"
@@ -150,9 +163,20 @@
                 app:iconTint="@color/editar_cita_boton_texto"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/campo_telefono"
+                app:layout_constraintTop_toBottomOf="@id/mensaje"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.45" />
+
+            <ProgressBar
+                android:id="@+id/progreso_edicion"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="12dp"
+                android:indeterminateTint="@color/morado"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@id/editar"
+                app:layout_constraintTop_toTopOf="@id/editar"
+                app:layout_constraintBottom_toBottomOf="@id/editar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

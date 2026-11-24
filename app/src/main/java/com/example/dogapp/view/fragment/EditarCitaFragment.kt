@@ -58,6 +58,16 @@ class EditarCitaFragment : Fragment() {
         for (campo in listOf(binding.nombre, binding.raza, binding.propietario, binding.telefono)) {
             campo.doAfterTextChanged { actualizarBoton() }
         }
+
+        binding.editar.setOnClickListener {
+            binding.raza.dismissDropDown()
+            citaViewModel.editarCita(
+                binding.nombre.text.toString(),
+                binding.raza.text.toString(),
+                binding.propietario.text.toString(),
+                binding.telefono.text.toString(),
+            )
+        }
     }
 
     private fun observarDatos() {
@@ -77,12 +87,7 @@ class EditarCitaFragment : Fragment() {
             if (cita != null && !formularioCargado) llenarFormulario(cita)
         }
         citaViewModel.estadoEdicion.observe(viewLifecycleOwner) { estado ->
-            val editable = estado == EstadoEdicion.LISTA
-            binding.campoNombre.isEnabled = editable
-            binding.campoRaza.isEnabled = editable
-            binding.campoPropietario.isEnabled = editable
-            binding.campoTelefono.isEnabled = editable
-            actualizarBoton()
+            mostrarEstado(estado)
         }
     }
 
@@ -94,9 +99,35 @@ class EditarCitaFragment : Fragment() {
         formularioCargado = true
     }
 
+    private fun mostrarEstado(estado: EstadoEdicion) {
+        val editable = estado == EstadoEdicion.LISTA || estado == EstadoEdicion.ERROR
+        binding.campoNombre.isEnabled = editable
+        binding.campoRaza.isEnabled = editable
+        binding.campoPropietario.isEnabled = editable
+        binding.campoTelefono.isEnabled = editable
+        binding.progresoEdicion.isVisible = estado == EstadoEdicion.CARGANDO ||
+            estado == EstadoEdicion.GUARDANDO
+
+        val mensaje = when (estado) {
+            EstadoEdicion.NO_DISPONIBLE -> R.string.editar_cita_no_disponible
+            EstadoEdicion.ERROR -> R.string.editar_cita_error_guardado
+            else -> null
+        }
+        binding.mensaje.isVisible = mensaje != null
+        if (mensaje != null) binding.mensaje.setText(mensaje)
+
+        actualizarBoton()
+        if (estado == EstadoEdicion.GUARDADA) {
+            val navController = findNavController()
+            if (!navController.popBackStack(R.id.homeFragment, false)) {
+                navController.navigate(R.id.action_editarCitaFragment_to_homeFragment)
+            }
+        }
+    }
+
     private fun actualizarBoton() {
         val estado = citaViewModel.estadoEdicion.value
-        binding.editar.isEnabled = estado == EstadoEdicion.LISTA &&
+        binding.editar.isEnabled = (estado == EstadoEdicion.LISTA || estado == EstadoEdicion.ERROR) &&
             citaViewModel.puedeEditarCita(
                 binding.nombre.text.toString(),
                 binding.raza.text.toString(),
