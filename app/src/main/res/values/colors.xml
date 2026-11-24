@@ -5,4 +5,6 @@
     <color name="morado">#6750A4</color>
     <color name="blanco">#FFFFFF</color>
     <color name="negro">#000000</color>
+    <color name="editar_cita_gris">#757575</color>
+    <color name="editar_cita_gris_claro">#E2DFE3</color>
 </resources>

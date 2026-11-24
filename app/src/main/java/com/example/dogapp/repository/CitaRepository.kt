@@ -15,7 +15,7 @@ class CitaRepository(private val citaDao: CitaDao) {
         citaDao.insertar(cita)
     }
 
-    suspend fun actualizarCita(cita: Cita) = withContext(Dispatchers.IO) {
+    suspend fun actualizarCita(cita: Cita): Int = withContext(Dispatchers.IO) {
         citaDao.actualizar(cita)
     }
 
