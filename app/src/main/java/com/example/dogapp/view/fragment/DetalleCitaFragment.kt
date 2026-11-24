@@ -44,6 +44,7 @@ class DetalleCitaFragment : Fragment() {
             val citaActual = cita?.takeIf { it.id == citaId }
             binding.toolbar.titulo = citaActual?.nombreMascota
                 ?: getString(R.string.detalle_cita_no_disponible)
+            binding.cita = citaActual
             mostrarImagenMascota(citaActual?.imagenUrl)
         }
         citaViewModel.cargarCita(citaId)

@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="cita"
+            type="com.example.dogapp.model.Cita" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,6 +66,104 @@
                         android:importantForAccessibility="no"
                         android:scaleType="fitCenter"
                         tools:src="@drawable/ic_cita_mascota_placeholder" />
+
+                </androidx.cardview.widget.CardView>
+
+                <Space
+                    android:id="@+id/centroImagenMascota"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    app:layout_constraintBottom_toBottomOf="@id/cardImagenMascota"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cardImagenMascota" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardInformacionCita"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:visibility="@{cita != null ? View.VISIBLE : View.GONE}"
+                    app:cardBackgroundColor="@color/blanco"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/centroImagenMascota"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="12dp"
+                        android:paddingBottom="20dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="124dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:gravity="end"
+                                android:text="@{@string/cita_turno(cita.id)}"
+                                android:textColor="@color/rosado"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.18"
+                                tools:text="# 1" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@{cita.raza}"
+                            android:textColor="@color/negro"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:text="Pitbull" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="@{cita.sintoma}"
+                            android:textColor="@color/negro"
+                            android:textSize="14sp"
+                            tools:text="Tiene garrapatas" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="6dp"
+                            android:background="@color/rosado" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="@{@string/detalle_cita_propietario(cita.propietario)}"
+                            android:textColor="@color/negro"
+                            android:textSize="14sp"
+                            tools:text="Propietario: Walter" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="@{@string/detalle_cita_telefono(cita.telefono)}"
+                            android:textColor="@color/negro"
+                            android:textSize="14sp"
+                            tools:text="Teléfono: 3045675518" />
+
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 

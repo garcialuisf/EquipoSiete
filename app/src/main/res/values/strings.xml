@@ -9,6 +9,8 @@
     <string name="title_detalle_cita">Detalle</string>
     <string name="detalle_cita_volver_home">Volver al administrador de citas</string>
     <string name="detalle_cita_no_disponible">Cita no disponible</string>
+    <string name="detalle_cita_propietario">Propietario: %1$s</string>
+    <string name="detalle_cita_telefono">Teléfono: %1$s</string>
     <string name="cita_turno"># %1$d</string>
     <string name="editar_cita_volver">Volver al detalle de la cita</string>
     <string name="editar_cita_nombre_mascota">Nombre de la Mascota</string>
