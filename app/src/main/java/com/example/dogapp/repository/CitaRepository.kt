@@ -19,7 +19,7 @@ class CitaRepository(private val citaDao: CitaDao) {
         citaDao.actualizar(cita)
     }
 
-    suspend fun eliminarCita(cita: Cita) = withContext(Dispatchers.IO) {
+    suspend fun eliminarCita(cita: Cita): Int = withContext(Dispatchers.IO) {
         citaDao.eliminar(cita)
     }
 

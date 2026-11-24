@@ -11,11 +11,17 @@ import com.example.dogapp.model.Cita
 import com.example.dogapp.repository.CitaRepository
 import com.example.dogapp.repository.RazaRepository
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class CitaViewModel(application: Application) : AndroidViewModel(application) {
 
     enum class EstadoEdicion { INICIAL, CARGANDO, LISTA, NO_DISPONIBLE, GUARDANDO, GUARDADA, ERROR }
+
+    enum class EstadoEliminacion { INICIAL, EN_CURSO, ELIMINADA, NO_DISPONIBLE, ERROR }
+
+    private val _estadoEliminacion = MutableLiveData(EstadoEliminacion.INICIAL)
+    val estadoEliminacion: LiveData<EstadoEliminacion> get() = _estadoEliminacion
 
     private val repository: CitaRepository
     private val razaRepository by lazy { RazaRepository() }
@@ -24,6 +30,7 @@ class CitaViewModel(application: Application) : AndroidViewModel(application) {
     private var citaIdEdicion: Int? = null
     val listaCitas: LiveData<List<Cita>>
 
+    private var cargaCita: Job? = null
     private val _citaSeleccionada = MutableLiveData<Cita?>()
     val citaSeleccionada: LiveData<Cita?> get() = _citaSeleccionada
 
@@ -51,9 +58,41 @@ class CitaViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun cargarCita(id: Int) {
+    fun eliminarCitaSeleccionada(id: Int) {
+        if (_estadoEliminacion.value != EstadoEliminacion.INICIAL) return
+        val cita = _citaSeleccionada.value?.takeIf { it.id == id } ?: return
+
+        cargaCita?.cancel()
+        _estadoEliminacion.value = EstadoEliminacion.EN_CURSO
         viewModelScope.launch {
-            _citaSeleccionada.value = repository.obtenerCitaPorId(id)
+            _estadoEliminacion.value = try {
+                val filasEliminadas = repository.eliminarCita(cita)
+                _citaSeleccionada.value = null
+                if (filasEliminadas == 1) EstadoEliminacion.ELIMINADA else EstadoEliminacion.NO_DISPONIBLE
+            } catch (cancelacion: CancellationException) {
+                throw cancelacion
+            } catch (_: Exception) {
+                EstadoEliminacion.ERROR
+            }
+        }
+    }
+
+    fun consumirResultadoEliminacion() {
+        _estadoEliminacion.value = EstadoEliminacion.INICIAL
+    }
+
+    fun cargarCita(id: Int) {
+        if (_estadoEliminacion.value != EstadoEliminacion.INICIAL) return
+
+        cargaCita?.cancel()
+        cargaCita = viewModelScope.launch {
+            _citaSeleccionada.value = try {
+                repository.obtenerCitaPorId(id)
+            } catch (cancelacion: CancellationException) {
+                throw cancelacion
+            } catch (_: Exception) {
+                null
+            }
         }
     }
 
