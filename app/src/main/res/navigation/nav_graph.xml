@@ -66,10 +66,14 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_editarCitaFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/editarCitaFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_editarCitaFragment_to_detalleCitaFragment"
-            app:destination="@id/detalleCitaFragment" />
+            app:destination="@id/detalleCitaFragment"
+            app:popUpTo="@id/editarCitaFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

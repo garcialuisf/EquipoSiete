@@ -9,11 +9,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.dogapp.data.AppDatabase
 import com.example.dogapp.model.Cita
 import com.example.dogapp.repository.CitaRepository
+import com.example.dogapp.repository.RazaRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 class CitaViewModel(application: Application) : AndroidViewModel(application) {
 
+    enum class EstadoEdicion { INICIAL, CARGANDO, LISTA, NO_DISPONIBLE, GUARDANDO, GUARDADA, ERROR }
+
     private val repository: CitaRepository
+    private val razaRepository by lazy { RazaRepository() }
+    private val _estadoEdicion = MutableLiveData(EstadoEdicion.INICIAL)
+    val estadoEdicion: LiveData<EstadoEdicion> get() = _estadoEdicion
+    private var citaIdEdicion: Int? = null
     val listaCitas: LiveData<List<Cita>>
 
     private val _citaSeleccionada = MutableLiveData<Cita?>()
@@ -46,6 +54,65 @@ class CitaViewModel(application: Application) : AndroidViewModel(application) {
     fun cargarCita(id: Int) {
         viewModelScope.launch {
             _citaSeleccionada.value = repository.obtenerCitaPorId(id)
+        }
+    }
+
+    fun cargarCitaParaEditar(id: Int) {
+        if (citaIdEdicion == id) return
+        citaIdEdicion = id
+        _estadoEdicion.value = EstadoEdicion.CARGANDO
+        viewModelScope.launch {
+            try {
+                val cita = repository.obtenerCitaPorId(id)
+                _citaSeleccionada.value = cita
+                _estadoEdicion.value = if (cita == null) EstadoEdicion.NO_DISPONIBLE else EstadoEdicion.LISTA
+            } catch (cancelacion: CancellationException) {
+                throw cancelacion
+            } catch (_: Exception) {
+                _estadoEdicion.value = EstadoEdicion.NO_DISPONIBLE
+            }
+        }
+    }
+
+    fun puedeEditarCita(nombre: String, raza: String, propietario: String, telefono: String): Boolean {
+        return nombre.isNotBlank() && nombre.length <= 15 &&
+            raza.isNotBlank() &&
+            propietario.isNotBlank() && propietario.length <= 30 &&
+            telefono.isNotEmpty() && telefono.length <= 10 && telefono.all { it in '0'..'9' }
+    }
+
+    fun editarCita(nombre: String, raza: String, propietario: String, telefono: String) {
+        val original = _citaSeleccionada.value ?: return
+        val estado = _estadoEdicion.value
+        if (estado != EstadoEdicion.LISTA && estado != EstadoEdicion.ERROR) return
+        if (!puedeEditarCita(nombre, raza, propietario, telefono)) return
+
+        _estadoEdicion.value = EstadoEdicion.GUARDANDO
+        viewModelScope.launch {
+            try {
+                val razaNueva = raza.trim()
+                val imagen = if (razaNueva.equals(original.raza.trim(), ignoreCase = true)) {
+                    original.imagenUrl
+                } else {
+                    razaRepository.obtenerImagenPorRaza(razaNueva)
+                }
+                val actualizada = original.copy(
+                    nombreMascota = nombre.trim(),
+                    raza = razaNueva,
+                    propietario = propietario.trim(),
+                    telefono = telefono,
+                    imagenUrl = imagen,
+                )
+                _estadoEdicion.value = if (repository.actualizarCita(actualizada) == 1) {
+                    EstadoEdicion.GUARDADA
+                } else {
+                    EstadoEdicion.NO_DISPONIBLE
+                }
+            } catch (cancelacion: CancellationException) {
+                throw cancelacion
+            } catch (_: Exception) {
+                _estadoEdicion.value = EstadoEdicion.ERROR
+            }
         }
     }
 }

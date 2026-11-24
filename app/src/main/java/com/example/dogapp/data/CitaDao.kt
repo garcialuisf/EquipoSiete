@@ -16,7 +16,7 @@ interface CitaDao {
     suspend fun insertar(cita: Cita)
 
     @Update
-    suspend fun actualizar(cita: Cita)
+    suspend fun actualizar(cita: Cita): Int
 
     @Delete
     suspend fun eliminar(cita: Cita)
