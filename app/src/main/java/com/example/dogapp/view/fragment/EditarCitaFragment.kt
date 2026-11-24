@@ -76,6 +76,7 @@ class EditarCitaFragment : Fragment() {
             binding.campoNombre.isEnabled = editable
             binding.campoRaza.isEnabled = editable
             binding.campoPropietario.isEnabled = editable
+            binding.campoTelefono.isEnabled = editable
         }
     }
 
@@ -83,6 +84,7 @@ class EditarCitaFragment : Fragment() {
         binding.nombre.setText(cita.nombreMascota)
         binding.raza.setText(cita.raza, false)
         binding.propietario.setText(cita.propietario)
+        binding.telefono.setText(cita.telefono)
         formularioCargado = true
     }
 
