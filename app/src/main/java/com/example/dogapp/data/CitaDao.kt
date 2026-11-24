@@ -19,7 +19,7 @@ interface CitaDao {
     suspend fun actualizar(cita: Cita): Int
 
     @Delete
-    suspend fun eliminar(cita: Cita)
+    suspend fun eliminar(cita: Cita): Int
 
     @Query("SELECT * FROM citas ORDER BY id ASC")
     fun obtenerTodas(): LiveData<List<Cita>>

@@ -11,6 +11,9 @@
     <string name="detalle_cita_no_disponible">Cita no disponible</string>
     <string name="detalle_cita_propietario">Propietario: %1$s</string>
     <string name="detalle_cita_telefono">Teléfono: %1$s</string>
+    <string name="detalle_cita_eliminar">Eliminar cita</string>
+    <string name="detalle_cita_eliminar_no_disponible">La cita ya no está disponible para eliminar.</string>
+    <string name="detalle_cita_eliminar_error">No se pudo eliminar la cita. Intenta de nuevo.</string>
     <string name="cita_turno"># %1$d</string>
     <string name="editar_cita_volver">Volver al detalle de la cita</string>
     <string name="editar_cita_nombre_mascota">Nombre de la Mascota</string>

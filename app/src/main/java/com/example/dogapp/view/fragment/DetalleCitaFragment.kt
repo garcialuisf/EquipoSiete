@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.dogapp.R
 import com.example.dogapp.databinding.FragmentDetalleCitaBinding
 import com.example.dogapp.viewmodel.CitaViewModel
+import com.example.dogapp.viewmodel.CitaViewModel.EstadoEliminacion
 
 class DetalleCitaFragment : Fragment() {
 
@@ -47,7 +49,35 @@ class DetalleCitaFragment : Fragment() {
             binding.cita = citaActual
             mostrarImagenMascota(citaActual?.imagenUrl)
         }
-        citaViewModel.cargarCita(citaId)
+        configurarEliminacion(citaId)
+        if (citaViewModel.estadoEliminacion.value == EstadoEliminacion.INICIAL) {
+            citaViewModel.cargarCita(citaId)
+        }
+    }
+
+    private fun configurarEliminacion(citaId: Int) {
+        binding.fabEliminarCita.setOnClickListener {
+            citaViewModel.eliminarCitaSeleccionada(citaId)
+        }
+        citaViewModel.estadoEliminacion.observe(viewLifecycleOwner) { estado ->
+            binding.fabEliminarCita.isEnabled = estado == EstadoEliminacion.INICIAL
+            when (estado) {
+                EstadoEliminacion.ELIMINADA -> {
+                    citaViewModel.consumirResultadoEliminacion()
+                    volverAHome()
+                }
+                EstadoEliminacion.NO_DISPONIBLE ->
+                    mostrarErrorEliminacion(R.string.detalle_cita_eliminar_no_disponible)
+                EstadoEliminacion.ERROR ->
+                    mostrarErrorEliminacion(R.string.detalle_cita_eliminar_error)
+                else -> Unit
+            }
+        }
+    }
+
+    private fun mostrarErrorEliminacion(mensaje: Int) {
+        citaViewModel.consumirResultadoEliminacion()
+        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
     }
 
     private fun mostrarImagenMascota(imagenUrl: String?) {
