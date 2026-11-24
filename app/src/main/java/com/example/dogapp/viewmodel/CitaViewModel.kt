@@ -53,7 +53,13 @@ class CitaViewModel(application: Application) : AndroidViewModel(application) {
 
     fun cargarCita(id: Int) {
         viewModelScope.launch {
-            _citaSeleccionada.value = repository.obtenerCitaPorId(id)
+            _citaSeleccionada.value = try {
+                repository.obtenerCitaPorId(id)
+            } catch (cancelacion: CancellationException) {
+                throw cancelacion
+            } catch (_: Exception) {
+                null
+            }
         }
     }
 

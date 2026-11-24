@@ -7,14 +7,12 @@
         android:layout_height="match_parent"
         android:background="@color/blanco">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_detalle_cita"
-            android:textColor="@color/negro"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar_curva"
+            android:layout_width="0dp"
+            android:layout_height="96dp"
+            app:descripcionVolver="@{@string/detalle_cita_volver_home}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
