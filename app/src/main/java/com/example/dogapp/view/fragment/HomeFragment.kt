@@ -7,13 +7,17 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dogapp.R
 import com.example.dogapp.databinding.FragmentHomeBinding
 import com.example.dogapp.view.adapter.CitaAdapter
+import com.example.dogapp.viewmodel.CitaViewModel
 
 class HomeFragment : Fragment() {
+
+    private val citaViewModel: CitaViewModel by viewModels()
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -45,7 +49,11 @@ class HomeFragment : Fragment() {
 
     private fun configurarListaCitas() {
         binding.rvCitas.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvCitas.adapter = CitaAdapter(::abrirDetalleCita)
+        val adapter = CitaAdapter(::abrirDetalleCita)
+        binding.rvCitas.adapter = adapter
+        citaViewModel.listaCitas.observe(viewLifecycleOwner) { citas ->
+            adapter.submitList(citas.orEmpty())
+        }
     }
 
     private fun abrirDetalleCita(citaId: Int) {
