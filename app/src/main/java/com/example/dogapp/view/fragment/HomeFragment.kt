@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dogapp.R
 import com.example.dogapp.databinding.FragmentHomeBinding
+import com.example.dogapp.view.adapter.CitaAdapter
 
 class HomeFragment : Fragment() {
 
@@ -27,6 +29,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configurarSalidaAlEscritorio()
+        configurarListaCitas()
+    }
+
+    private fun configurarListaCitas() {
+        binding.rvCitas.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCitas.adapter = CitaAdapter()
     }
 
     private fun configurarSalidaAlEscritorio() {
@@ -41,6 +49,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        binding.rvCitas.adapter = null
         super.onDestroyView()
         _binding = null
     }
