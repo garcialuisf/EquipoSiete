@@ -45,7 +45,15 @@ class HomeFragment : Fragment() {
 
     private fun configurarListaCitas() {
         binding.rvCitas.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvCitas.adapter = CitaAdapter()
+        binding.rvCitas.adapter = CitaAdapter(::abrirDetalleCita)
+    }
+
+    private fun abrirDetalleCita(citaId: Int) {
+        val navController = findNavController()
+        if (navController.currentDestination?.id == R.id.homeFragment) {
+            val argumentos = Bundle().apply { putInt("citaId", citaId) }
+            navController.navigate(R.id.action_homeFragment_to_detalleCitaFragment, argumentos)
+        }
     }
 
     private fun configurarSalidaAlEscritorio() {

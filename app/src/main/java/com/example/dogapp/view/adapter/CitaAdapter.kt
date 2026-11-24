@@ -8,7 +8,8 @@ import com.example.dogapp.databinding.ItemCitaBinding
 import com.example.dogapp.model.Cita
 import com.example.dogapp.view.viewholder.CitaViewHolder
 
-class CitaAdapter : ListAdapter<Cita, CitaViewHolder>(CitaDiffCallback) {
+class CitaAdapter(private val onCitaClick: (Int) -> Unit) :
+    ListAdapter<Cita, CitaViewHolder>(CitaDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CitaViewHolder {
         val binding = ItemCitaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,7 +17,7 @@ class CitaAdapter : ListAdapter<Cita, CitaViewHolder>(CitaDiffCallback) {
     }
 
     override fun onBindViewHolder(holder: CitaViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onCitaClick)
     }
 
     private object CitaDiffCallback : DiffUtil.ItemCallback<Cita>() {

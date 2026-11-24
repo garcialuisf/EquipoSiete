@@ -9,7 +9,8 @@ import com.example.dogapp.model.Cita
 class CitaViewHolder(private val binding: ItemCitaBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(cita: Cita) {
+    fun bind(cita: Cita, onCitaClick: (Int) -> Unit) {
+        binding.root.setOnClickListener { onCitaClick(cita.id) }
         binding.cita = cita
         binding.executePendingBindings()
 
