@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">dogApp</string>
     <string name="title_login">Login</string>
-    <string name="title_home">Administrador de Citas</string>
+    <string name="title_home">Administrador\nde citas</string>
+    <string name="home_brand" translatable="false">DogApp</string>
+    <string name="home_dog_placeholder" translatable="false">🐶</string>
     <string name="title_nueva_cita">Nueva Cita</string>
     <string name="title_editar_cita">Editar Cita</string>
     <string name="title_detalle_cita">Detalle</string>
