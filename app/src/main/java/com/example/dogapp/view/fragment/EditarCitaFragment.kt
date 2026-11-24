@@ -75,12 +75,14 @@ class EditarCitaFragment : Fragment() {
             val editable = estado == EstadoEdicion.LISTA
             binding.campoNombre.isEnabled = editable
             binding.campoRaza.isEnabled = editable
+            binding.campoPropietario.isEnabled = editable
         }
     }
 
     private fun llenarFormulario(cita: Cita) {
         binding.nombre.setText(cita.nombreMascota)
         binding.raza.setText(cita.raza, false)
+        binding.propietario.setText(cita.propietario)
         formularioCargado = true
     }
 
