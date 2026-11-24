@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,12 +15,14 @@ import com.example.dogapp.databinding.FragmentEditarCitaBinding
 import com.example.dogapp.model.Cita
 import com.example.dogapp.viewmodel.CitaViewModel
 import com.example.dogapp.viewmodel.CitaViewModel.EstadoEdicion
+import com.example.dogapp.viewmodel.RazaViewModel
 
 class EditarCitaFragment : Fragment() {
 
     private var _binding: FragmentEditarCitaBinding? = null
     private val binding get() = _binding!!
     private val citaViewModel: CitaViewModel by viewModels()
+    private val razaViewModel: RazaViewModel by viewModels()
     private var formularioCargado = false
 
     override fun onCreateView(
@@ -52,17 +56,31 @@ class EditarCitaFragment : Fragment() {
     }
 
     private fun observarDatos() {
+        binding.progresoRazas.isVisible = razaViewModel.razas.value == null
+        razaViewModel.razas.observe(viewLifecycleOwner) { razas ->
+            binding.progresoRazas.isVisible = false
+            binding.raza.setAdapter(ArrayAdapter(requireContext(), R.layout.item_sugerencia_raza, razas))
+            if (razas.isNotEmpty() && binding.raza.hasFocus() && binding.raza.enoughToFilter()) {
+                val texto = binding.raza.text
+                val cursor = binding.raza.selectionStart
+                binding.raza.setText(texto)
+                if (cursor >= 0) binding.raza.setSelection(cursor)
+            }
+        }
+
         citaViewModel.citaSeleccionada.observe(viewLifecycleOwner) { cita ->
             if (cita != null && !formularioCargado) llenarFormulario(cita)
         }
         citaViewModel.estadoEdicion.observe(viewLifecycleOwner) { estado ->
             val editable = estado == EstadoEdicion.LISTA
             binding.campoNombre.isEnabled = editable
+            binding.campoRaza.isEnabled = editable
         }
     }
 
     private fun llenarFormulario(cita: Cita) {
         binding.nombre.setText(cita.nombreMascota)
+        binding.raza.setText(cita.raza, false)
         formularioCargado = true
     }
 
