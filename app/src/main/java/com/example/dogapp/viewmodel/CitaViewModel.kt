@@ -72,4 +72,11 @@ class CitaViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun puedeEditarCita(nombre: String, raza: String, propietario: String, telefono: String): Boolean {
+        return nombre.isNotBlank() && nombre.length <= 15 &&
+            raza.isNotBlank() &&
+            propietario.isNotBlank() && propietario.length <= 30 &&
+            telefono.isNotEmpty() && telefono.length <= 10 && telefono.all { it in '0'..'9' }
+    }
+
 }

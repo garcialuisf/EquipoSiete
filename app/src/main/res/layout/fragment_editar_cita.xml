@@ -132,6 +132,26 @@
                 app:layout_constraintEnd_toEndOf="@id/campo_raza"
                 app:layout_constraintTop_toTopOf="@id/campo_raza"
                 app:layout_constraintBottom_toBottomOf="@id/campo_raza" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editar"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:enabled="false"
+                android:text="@string/title_editar_cita"
+                android:textColor="@color/editar_cita_gris"
+                app:backgroundTint="@color/editar_cita_boton"
+                app:cornerRadius="24dp"
+                app:icon="@drawable/ic_editar_cita_lapiz"
+                app:iconSize="18dp"
+                app:iconTint="@color/editar_cita_gris"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/campo_telefono"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.45" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

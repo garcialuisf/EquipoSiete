@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -53,6 +54,10 @@ class EditarCitaFragment : Fragment() {
                 )
             }
         }
+
+        for (campo in listOf(binding.nombre, binding.raza, binding.propietario, binding.telefono)) {
+            campo.doAfterTextChanged { actualizarBoton() }
+        }
     }
 
     private fun observarDatos() {
@@ -77,6 +82,7 @@ class EditarCitaFragment : Fragment() {
             binding.campoRaza.isEnabled = editable
             binding.campoPropietario.isEnabled = editable
             binding.campoTelefono.isEnabled = editable
+            actualizarBoton()
         }
     }
 
@@ -86,6 +92,17 @@ class EditarCitaFragment : Fragment() {
         binding.propietario.setText(cita.propietario)
         binding.telefono.setText(cita.telefono)
         formularioCargado = true
+    }
+
+    private fun actualizarBoton() {
+        val estado = citaViewModel.estadoEdicion.value
+        binding.editar.isEnabled = estado == EstadoEdicion.LISTA &&
+            citaViewModel.puedeEditarCita(
+                binding.nombre.text.toString(),
+                binding.raza.text.toString(),
+                binding.propietario.text.toString(),
+                binding.telefono.text.toString(),
+            )
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
