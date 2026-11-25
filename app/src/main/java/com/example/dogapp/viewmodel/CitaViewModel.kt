@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 
 class CitaViewModel(application: Application) : AndroidViewModel(application) {
 
+    enum class EstadoCreacion { INICIAL, GUARDANDO, GUARDADA, ERROR }
+
     enum class EstadoEdicion { INICIAL, CARGANDO, LISTA, NO_DISPONIBLE, GUARDANDO, GUARDADA, ERROR }
 
     enum class EstadoEliminacion { INICIAL, EN_CURSO, ELIMINADA, NO_DISPONIBLE, ERROR }
@@ -25,6 +27,8 @@ class CitaViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: CitaRepository
     private val razaRepository by lazy { RazaRepository() }
+    private val _estadoCreacion = MutableLiveData(EstadoCreacion.INICIAL)
+    val estadoCreacion: LiveData<EstadoCreacion> get() = _estadoCreacion
     private val _estadoEdicion = MutableLiveData(EstadoEdicion.INICIAL)
     val estadoEdicion: LiveData<EstadoEdicion> get() = _estadoEdicion
     private var citaIdEdicion: Int? = null
@@ -43,6 +47,30 @@ class CitaViewModel(application: Application) : AndroidViewModel(application) {
     fun guardarCita(cita: Cita) {
         viewModelScope.launch {
             repository.guardarCita(cita)
+        }
+    }
+
+    fun guardarNuevaCita(cita: Cita) {
+        val estado = _estadoCreacion.value
+        if (estado != EstadoCreacion.INICIAL && estado != EstadoCreacion.ERROR) return
+
+        _estadoCreacion.value = EstadoCreacion.GUARDANDO
+        viewModelScope.launch {
+            try {
+                val imagenUrl = razaRepository.obtenerImagenPorRaza(cita.raza)
+                repository.guardarCita(cita.copy(imagenUrl = imagenUrl))
+                _estadoCreacion.value = EstadoCreacion.GUARDADA
+            } catch (cancelacion: CancellationException) {
+                throw cancelacion
+            } catch (_: Exception) {
+                _estadoCreacion.value = EstadoCreacion.ERROR
+            }
+        }
+    }
+
+    fun consumirErrorCreacion() {
+        if (_estadoCreacion.value == EstadoCreacion.ERROR) {
+            _estadoCreacion.value = EstadoCreacion.INICIAL
         }
     }
 

@@ -2,22 +2,144 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="formulario"
+            type="com.example.dogapp.viewmodel.NuevaCitaViewModel" />
+        <variable name="guardando" type="boolean" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/blanco">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_nueva_cita"
-            android:textColor="@color/negro"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar_curva"
+            android:layout_width="0dp"
+            android:layout_height="96dp"
+            app:titulo="@{@string/title_nueva_cita}"
+            app:descripcionVolver="@{@string/detalle_cita_volver_home}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_nombre"
+            style="@style/Widget.DogApp.CampoOutlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="28dp"
+            android:layout_marginTop="28dp"
+            android:hint="@string/editar_cita_nombre_mascota"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nombre"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textCapWords"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingHorizontal="12dp"
+                android:text="@={formulario.nombre}"
+                android:textColor="@color/negro"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_propietario"
+            style="@style/Widget.DogApp.CampoOutlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="28dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/editar_cita_propietario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/campo_nombre">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/propietario"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textCapWords"
+                android:maxLength="30"
+                android:maxLines="1"
+                android:paddingHorizontal="12dp"
+                android:text="@={formulario.propietario}"
+                android:textColor="@color/negro"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_telefono"
+            style="@style/Widget.DogApp.CampoOutlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="28dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/editar_cita_telefono"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/campo_propietario">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/telefono"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:paddingHorizontal="12dp"
+                android:text="@={formulario.telefono}"
+                android:textColor="@color/negro"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/sintomas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:entries="@array/nueva_cita_sintomas"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="@id/campo_telefono"
+            app:layout_constraintStart_toStartOf="@id/campo_telefono"
+            app:layout_constraintTop_toBottomOf="@id/campo_telefono" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/guardar_cita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:enabled="@{!guardando &amp;&amp; formulario.puedeGuardar(formulario.nombre, formulario.raza, formulario.propietario, formulario.telefono), default=false}"
+            android:text="@string/nueva_cita_guardar"
+            android:textColor="@color/editar_cita_boton_texto"
+            android:textStyle="bold"
+            app:backgroundTint="@color/editar_cita_boton"
+            app:cornerRadius="24dp"
+            app:icon="@drawable/ic_guardar_cita"
+            app:iconSize="18dp"
+            app:iconTint="@color/editar_cita_boton_texto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sintomas" />
+
+        <ProgressBar
+            android:id="@+id/progreso_guardado"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/nueva_cita_guardando"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guardar_cita" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
