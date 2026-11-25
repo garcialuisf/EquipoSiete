@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
@@ -16,6 +17,7 @@ import com.example.dogapp.databinding.FragmentNuevaCitaBinding
 import com.example.dogapp.viewmodel.CitaViewModel
 import com.example.dogapp.viewmodel.CitaViewModel.EstadoCreacion
 import com.example.dogapp.viewmodel.NuevaCitaViewModel
+import com.example.dogapp.viewmodel.RazaViewModel
 
 class NuevaCitaFragment : Fragment() {
 
@@ -23,6 +25,7 @@ class NuevaCitaFragment : Fragment() {
     private val binding get() = _binding!!
     private val nuevaCitaViewModel: NuevaCitaViewModel by viewModels()
     private val citaViewModel: CitaViewModel by viewModels()
+    private val razaViewModel: RazaViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +39,7 @@ class NuevaCitaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configurarFormulario()
+        configurarRazas()
         configurarToolbar()
         configurarGuardado()
     }
@@ -43,6 +47,20 @@ class NuevaCitaFragment : Fragment() {
     private fun configurarFormulario() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.formulario = nuevaCitaViewModel
+    }
+
+    private fun configurarRazas() {
+        binding.progresoRazas.isVisible = razaViewModel.razas.value == null
+        razaViewModel.razas.observe(viewLifecycleOwner) { razas ->
+            binding.progresoRazas.isVisible = false
+            val campo = binding.raza
+            campo.setAdapter(ArrayAdapter(requireContext(), R.layout.item_sugerencia_raza, razas))
+            if (razas.isNotEmpty() && campo.hasFocus() && campo.enoughToFilter()) {
+                val cursor = campo.selectionStart
+                campo.setText(campo.text.toString())
+                if (cursor >= 0) campo.setSelection(cursor)
+            }
+        }
     }
 
     private fun configurarToolbar() {
@@ -73,6 +91,7 @@ class NuevaCitaFragment : Fragment() {
     }
 
     private fun guardarCita() {
+        binding.raza.dismissDropDown()
         val sintomas = binding.sintomas
         if (!nuevaCitaViewModel.tieneSintomaSeleccionado(sintomas.selectedItemPosition)) {
             mostrarMensaje(R.string.nueva_cita_selecciona_sintoma)
