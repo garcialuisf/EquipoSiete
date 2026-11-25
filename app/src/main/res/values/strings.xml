@@ -7,6 +7,8 @@
     <string name="title_nueva_cita">Nueva Cita</string>
     <string name="nueva_cita_guardar">Guardar Cita</string>
     <string name="nueva_cita_selecciona_sintoma">Selecciona un síntoma</string>
+    <string name="nueva_cita_guardando">Guardando cita</string>
+    <string name="nueva_cita_error_guardado">No se pudo guardar la cita. Intenta de nuevo.</string>
     <string name="title_editar_cita">Editar Cita</string>
     <string name="title_detalle_cita">Detalle</string>
     <string name="detalle_cita_volver_home">Volver al administrador de citas</string>

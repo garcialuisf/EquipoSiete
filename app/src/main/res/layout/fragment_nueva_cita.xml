@@ -6,6 +6,7 @@
         <variable
             name="formulario"
             type="com.example.dogapp.viewmodel.NuevaCitaViewModel" />
+        <variable name="guardando" type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:enabled="@{formulario.puedeGuardar(formulario.nombre, formulario.raza, formulario.propietario, formulario.telefono), default=false}"
+            android:enabled="@{!guardando &amp;&amp; formulario.puedeGuardar(formulario.nombre, formulario.raza, formulario.propietario, formulario.telefono), default=false}"
             android:text="@string/nueva_cita_guardar"
             android:textColor="@color/editar_cita_boton_texto"
             android:textStyle="bold"
@@ -128,6 +129,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sintomas" />
+
+        <ProgressBar
+            android:id="@+id/progreso_guardado"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/nueva_cita_guardando"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guardar_cita" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
