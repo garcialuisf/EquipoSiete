@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">dogApp</string>
     <string name="title_login">Login</string>
+    <string name="login_title">DogApp</string>
     <string name="login_dog_head_description">Cabeza de perro</string>
     <string name="title_home">Administrador\nde citas</string>
     <string name="home_brand" translatable="false">DogApp</string>
