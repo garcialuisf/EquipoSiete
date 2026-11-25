@@ -21,6 +21,7 @@
             layout="@layout/layout_toolbar_curva"
             android:layout_width="0dp"
             android:layout_height="96dp"
+            android:layout_marginHorizontal="14dp"
             app:descripcionVolver="@{@string/detalle_cita_volver_home}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
