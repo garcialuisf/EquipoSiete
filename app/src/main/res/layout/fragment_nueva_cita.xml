@@ -51,6 +51,44 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_raza"
+            style="@style/Widget.DogApp.CampoOutlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/editar_cita_raza"
+            app:layout_constraintEnd_toEndOf="@id/campo_nombre"
+            app:layout_constraintStart_toStartOf="@id/campo_nombre"
+            app:layout_constraintTop_toBottomOf="@id/campo_nombre">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/raza"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:completionThreshold="2"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:paddingStart="12dp"
+                android:paddingEnd="40dp"
+                android:popupBackground="@color/blanco"
+                android:text="@={formulario.raza}"
+                android:textColor="@color/negro"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ProgressBar
+            android:id="@+id/progreso_razas"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="@string/nueva_cita_cargando_razas"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/campo_raza"
+            app:layout_constraintEnd_toEndOf="@id/campo_raza"
+            app:layout_constraintTop_toTopOf="@id/campo_raza" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/campo_propietario"
             style="@style/Widget.DogApp.CampoOutlined"
             android:layout_width="0dp"
@@ -60,7 +98,7 @@
             android:hint="@string/editar_cita_propietario"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/campo_nombre">
+            app:layout_constraintTop_toBottomOf="@id/campo_raza">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/propietario"
