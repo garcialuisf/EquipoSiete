@@ -10,7 +10,6 @@
     <string name="biometric_not_available">El dispositivo no cuenta con biometría o no tiene huella registrada</string>
     <string name="title_home">Administrador\nde citas</string>
     <string name="home_brand" translatable="false">DogApp</string>
-    <string name="home_dog_placeholder" translatable="false">🐶</string>
     <string name="title_nueva_cita">Nueva Cita</string>
     <string name="nueva_cita_cargando_razas">Cargando razas</string>
     <string name="nueva_cita_guardar">Guardar Cita</string>
