@@ -3,21 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blanco">
+        android:background="@color/gris_oscuro">
+
+        <ImageView
+            android:id="@+id/ivDogHead"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="50dp"
+            android:contentDescription="@string/login_dog_head_description"
+            android:scaleType="fitEnd"
+            android:src="@drawable/dog_head"
+            android:translationX="80dp"
+            app:layout_constraintDimensionRatio="H,2000:1607"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="1.0" />
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvDogAppTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_login"
-            android:textColor="@color/negro"
-            android:textSize="20sp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/dogapp_font"
+            android:text="@string/login_title"
+            android:textColor="@color/blanco"
+            android:textSize="70sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/ivDogHead"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieFingerprint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/login_fingerprint_description"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/ivDogHead"
+            app:layout_constraintVertical_bias="0.45"
+            app:layout_constraintWidth_percent="0.40"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/fingerprint" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
