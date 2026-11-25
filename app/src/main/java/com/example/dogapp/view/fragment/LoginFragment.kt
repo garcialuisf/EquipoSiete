@@ -11,6 +11,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.dogapp.R
 import com.example.dogapp.databinding.FragmentLoginBinding
 
@@ -71,6 +72,7 @@ class LoginFragment : Fragment() {
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
+                    navegarAHome()
                 }
 
                 override fun onAuthenticationFailed() {
@@ -90,6 +92,13 @@ class LoginFragment : Fragment() {
             .build()
 
         biometricPrompt.authenticate(promptInfo)
+    }
+
+    private fun navegarAHome() {
+        val navController = findNavController()
+        if (navController.currentDestination?.id == R.id.loginFragment) {
+            navController.navigate(R.id.action_loginFragment_to_homeFragment)
+        }
     }
 
     override fun onDestroyView() {
