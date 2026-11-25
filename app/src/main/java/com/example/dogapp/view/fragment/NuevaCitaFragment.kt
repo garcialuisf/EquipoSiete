@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.dogapp.R
 import com.example.dogapp.databinding.FragmentNuevaCitaBinding
 
@@ -25,6 +26,13 @@ class NuevaCitaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configurarToolbar()
+    }
+
+    private fun configurarToolbar() {
+        binding.toolbar.volver.setOnClickListener {
+            findNavController().popBackStack(R.id.homeFragment, false)
+        }
     }
 
     override fun onDestroyView() {
