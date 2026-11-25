@@ -19,6 +19,7 @@
             layout="@layout/layout_toolbar_curva"
             android:layout_width="0dp"
             android:layout_height="96dp"
+            android:layout_marginHorizontal="14dp"
             app:titulo="@{@string/title_nueva_cita}"
             app:descripcionVolver="@{@string/detalle_cita_volver_home}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +147,7 @@
             android:entries="@array/nueva_cita_sintomas"
             android:minHeight="48dp"
             android:spinnerMode="dropdown"
-            app:layout_constraintEnd_toEndOf="@id/campo_telefono"
+            app:layout_constraintWidth_percent="0.6"
             app:layout_constraintStart_toStartOf="@id/campo_telefono"
             app:layout_constraintTop_toBottomOf="@id/campo_telefono" />
 
